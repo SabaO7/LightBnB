@@ -40,16 +40,17 @@ const addUser = function(user) {
     });
 };
 
-// Reservations
 const getAllReservations = function(guest_id, limit = 10) {
-  const queryString = `SELECT properties.*, reservations.*, avg(rating) as average_rating
+  const queryString = `
+    SELECT properties.*, reservations.*, avg(rating) as average_rating
     FROM reservations
     JOIN properties ON properties.id = reservations.property_id
     JOIN property_reviews ON property_reviews.property_id = properties.id
     WHERE reservations.guest_id = $1
     GROUP BY properties.id, reservations.id
     ORDER BY start_date
-    LIMIT $2;`;
+    LIMIT $2;
+  `;
 
   return pool
     .query(queryString, [guest_id, limit])
@@ -57,9 +58,11 @@ const getAllReservations = function(guest_id, limit = 10) {
       return result.rows;
     })
     .catch((err) => {
-      console.log(err.message);
+      console.error("Error fetching reservations:", err.message);
+      throw new Error("Database error");
     });
 };
+
 
 /// Properties
 
@@ -119,18 +122,6 @@ const addProperty = function(property) {
       console.error(err.message);
     });
 };
-
-
-// Testing the function getUserWithEmail
-getUserWithEmail("someemail@example.com")
-    .then(user => console.log(user))
-    .catch(e => console.error(e));
-
-// Testing the function getAllReservations
-getAllReservations(1) // Assuming 1 is a valid user ID
-    .then(reservations => console.log(reservations))
-    .catch(e => console.error(e));
-
 
 module.exports = {
   getUserWithEmail,
