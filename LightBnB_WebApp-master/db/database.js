@@ -88,13 +88,13 @@ const getAllProperties = (options, limit = 10) => {
 
   if (options.minimum_price_per_night) {
     queryParams.length === 0 ? queryString += `WHERE ` : queryString += `AND `;
-    queryParams.push(options.minimum_price_per_night * 100); // Convert to cents as required
+    queryParams.push(options.minimum_price_per_night * 100); 
     queryString += `cost_per_night >= $${queryParams.length} `;
   }
 
   if (options.maximum_price_per_night) {
     queryParams.length === 0 ? queryString += `WHERE ` : queryString += `AND `;
-    queryParams.push(options.maximum_price_per_night * 100); // Convert to cents as required
+    queryParams.push(options.maximum_price_per_night * 100); 
     queryString += `cost_per_night <= $${queryParams.length} `;
   }
 
@@ -117,14 +117,13 @@ const getAllProperties = (options, limit = 10) => {
 };
 
 
-
 const addProperty = function(property) {
   const queryString = `
     INSERT INTO properties (
       title, 
       description, 
       owner_id, 
-      price_per_night, 
+      cost_per_night, 
       thumbnail_photo_url, 
       cover_photo_url, 
       number_of_bathrooms, 
@@ -133,8 +132,9 @@ const addProperty = function(property) {
       street, 
       city, 
       province, 
-      post_code
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+      post_code,
+      parking_spaces
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
     RETURNING *;
   `;
 
@@ -142,7 +142,7 @@ const addProperty = function(property) {
     property.title,
     property.description,
     property.owner_id,
-    property.price_per_night,
+    property.cost_per_night,
     property.thumbnail_photo_url,
     property.cover_photo_url,
     property.number_of_bathrooms,
@@ -151,7 +151,8 @@ const addProperty = function(property) {
     property.street,
     property.city,
     property.province,
-    property.post_code
+    property.post_code,
+    property.parking_spaces
   ];
 
   return pool
@@ -161,6 +162,7 @@ const addProperty = function(property) {
       console.error(err.message);
     });
 };
+
 
 module.exports = {
   getUserWithEmail,
