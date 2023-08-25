@@ -1,4 +1,5 @@
 # LightBnB
+A contemporary web application for property rentals, LightBnB offers users the ability to book their stay from a variety of listings. The platform allows users to manage their properties, create new listings, and leave reviews. Below is a brief overview of the project's directory structure.
 
 ## Project Structure
 
@@ -53,3 +54,14 @@
 * `routes` contains the router files which are responsible for any HTTP requests to `/users/something` or `/api/something`. 
 * `styles` contains all of the sass files. 
 * `server.js` is the entry point to the application. This connects the routes to the database.
+
+## Getting Started:
+### Installation: 
+- Clone the repository
+- run npm install to install dependencies.
+### Running the Server: 
+- Use npm start to begin the server. Visit http://localhost:8080 in your browser to view the app.
+### Database Setup: 
+- Although the app currently uses .json files for mock data, future iterations will connect to a real database. 
+- Ensure that you have PostgreSQL set up
+- modify database.js accordingly for real database interactions.
